@@ -2,6 +2,7 @@ const express = require('express');
 const AuthController = require('./controllers/AuthController');
 const UserController = require('./controllers/UserController');
 const DisciplineController = require('./controllers/DisciplineController');
+const QuestionController = require('./controllers/QuestionController');
 //
 const AuthMiddleware = require('./middlewares/AuthMIddleware');
 const AdminMiddleware = require('./middlewares/AdminMiddleware');
@@ -29,5 +30,17 @@ routes.get('/users/:id', UserController.show);
 routes.post('/users', AdminMiddleware, UserController.store);
 routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', AdminMiddleware, UserController.delete);
+
+//QUESTION
+routes.get('/questions', AdminMiddleware, QuestionController.index);
+routes.get(
+  '/disciplines/:disciplineId/questions',
+  AdminMiddleware,
+  QuestionController.index
+);
+routes.get('/questions/:id', QuestionController.show);
+routes.post('/questions', QuestionController.store);
+routes.put('/questions/:id', QuestionController.update);
+routes.delete('/questions/:id', AdminMiddleware, QuestionController.delete);
 
 module.exports = routes;
