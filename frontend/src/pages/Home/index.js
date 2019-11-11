@@ -1,6 +1,6 @@
-import React from 'react';
-import { Container } from './styles';
-export default function Home() {
+import React from "react";
+import { Container } from "./styles";
+export default function Home({ history }) {
   return (
     <Container>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -67,20 +67,19 @@ export default function Home() {
               </a>
             </li>
           </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input
-              className="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
+          <div className="form-inline my-2 my-lg-0">
+            <a
+              onClick={e => {
+                e.preventDefault();
+                sessionStorage.clear();
+                history.push("/login");
+              }}
+              className="nav-link"
+              href="#"
             >
-              Search
-            </button>
-          </form>
+              Home <span className="sr-only"></span>
+            </a>
+          </div>
         </div>
       </nav>
     </Container>

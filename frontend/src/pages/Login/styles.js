@@ -40,6 +40,7 @@ export const Button = styled.button`
   font-weight: bold;
   font-size: 15px;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Label = styled.p`
@@ -47,4 +48,11 @@ export const Label = styled.p`
 
   margin: 10px 0px;
   color: #40426e;
+`;
+
+export const Error = styled.p`
+  color: #f54;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 0px;
 `;
