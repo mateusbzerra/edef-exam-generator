@@ -89,6 +89,7 @@ export default function Discipline() {
           </tr>
         )}
       ></TableList>
+
       <ModalComponent
         show={showModal}
         title={newDiscipline ? 'Nava Disciplina' : 'Visualizar Disciplina'}
