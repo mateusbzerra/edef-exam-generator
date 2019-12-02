@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
+import jwt from 'jsonwebtoken';
 import {
   Container,
   Content,
@@ -15,7 +16,7 @@ import api from '../../services/api';
 
 function Login({ history, errors, handleSubmit, setFieldValue, values }) {
   useEffect(() => {
-    const token = sessionStorage.getItem('@token');
+    const token = localStorage.getItem('@token');
     if (token) {
       history.push('/');
     }
@@ -68,9 +69,11 @@ export default withFormik({
         password: values.password
       });
       if (data.token) {
-        if (data.amdin) {
-        }
-        sessionStorage.setItem('@token', data.token);
+        const user = jwt.decode(data.token);
+
+        localStorage.setItem('@user', user.name);
+        localStorage.setItem('@token', data.token);
+
         props.history.push('/');
       }
     } catch (err) {

@@ -7,7 +7,7 @@ export const Container = styled.div`
 `;
 
 export const Navigation = styled(Navbar)`
-  box-shadow: 0px 5px 5px #ddd;
-  background-color: #40426e;
+  box-shadow: 0px 5px 5px #aaa;
+  background-color: #40426e !important;
   color: #fff;
 `;
