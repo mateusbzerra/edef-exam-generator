@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Navbar, NavDropdown, Nav, Container } from 'react-bootstrap';
+
 import { Navigation } from './styles';
 import { NavLink, withRouter } from 'react-router-dom';
 
 function Header({ history }) {
-  const loggedUser = localStorage.getItem('@user');
+  const [user, setUser] = useState('');
+  const UserStore = useSelector(state => state.UserStore);
+  useEffect(() => {
+    setUser(UserStore);
+  }, [UserStore]);
 
   return (
     <Navigation variant="dark" expand="lg">
@@ -18,12 +24,14 @@ function Header({ history }) {
             <Nav.Link as={NavLink} to="/disciplinas">
               Disciplinas
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/professores">
-              Professores
-            </Nav.Link>
+            {user && user.admin && (
+              <Nav.Link as={NavLink} to="/professores">
+                Professores
+              </Nav.Link>
+            )}
           </Nav>
           <Nav>
-            <NavDropdown title={loggedUser} id="basic-nav-dropdown">
+            <NavDropdown title={user.name || ''} id="basic-nav-dropdown">
               <NavDropdown.Item href="#">Alterar Perfil</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item

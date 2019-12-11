@@ -4,10 +4,19 @@ const api = Axios.create({
   baseURL: 'http://localhost:8000'
 });
 
-const token = localStorage.getItem('@token');
-if (token) {
-  api.defaults.headers['Authorization'] = `Bearer: ${token}`;
-}
+api.interceptors.request.use(
+  function(config) {
+    const token = localStorage.getItem('@token');
+    config.headers = {
+      Authorization: token ? `Bearer ${token}` : null
+    };
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+
 api.postOrPut = (url, id, data, config = {}) => {
   const method = id ? 'put' : 'post';
   const apiUrl = id ? `${url}/${id}` : url;

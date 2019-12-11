@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Container, Button, Row, Col, Form, Alert } from 'react-bootstrap';
 import { Formik } from 'formik';
 
@@ -13,6 +15,7 @@ export default function Discipline() {
   const [newDiscipline, setNewDiscipline] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [handleError, setHandleError] = useState(false);
+  const user = useSelector(state => state.UserStore);
 
   useEffect(() => {
     if (selectedDiscipline) {
@@ -54,15 +57,17 @@ export default function Discipline() {
           <h1>Disciplinas</h1>
         </Col>
         <Col className="text-right">
-          <Button
-            variant="success"
-            onClick={() => {
-              setShowModal(!showModal);
-              setNewDiscipline(true);
-            }}
-          >
-            Cadastrar Disciplina
-          </Button>
+          {user && user.admin && (
+            <Button
+              variant="success"
+              onClick={() => {
+                setShowModal(!showModal);
+                setNewDiscipline(true);
+              }}
+            >
+              Cadastrar Disciplina
+            </Button>
+          )}
         </Col>
       </Row>
       <hr />
@@ -75,16 +80,32 @@ export default function Discipline() {
             <td>{item.name} </td>
             <td>{item.workload}</td>
             <td>
-              <Button
-                onClick={() => {
-                  setSelectedDiscipline(item);
-                  setShowModal(!showModal);
-                }}
-                variant="primary"
-                size="sm"
-              >
-                Editar
-              </Button>
+              {user && user.admin ? (
+                <Button
+                  onClick={() => {
+                    setSelectedDiscipline(item);
+                    setShowModal(!showModal);
+                  }}
+                  variant="primary"
+                  size="sm"
+                >
+                  Editar
+                </Button>
+              ) : (
+                <Button
+                  as={Link}
+                  to={{
+                    pathname: `/disciplinas/${item._id}/questoes`,
+                    state: {
+                      name: item.name
+                    }
+                  }}
+                  variant="warning"
+                  size="sm"
+                >
+                  Questões
+                </Button>
+              )}
             </td>
           </tr>
         )}
