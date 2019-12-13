@@ -4,13 +4,25 @@ const User = require('../models/User');
 
 class QuestionController {
   async index(req, res) {
-    //const reqUser = await User.findById(req.user.id);
     const { disciplineId } = req.params;
-    try {
-      const questions = await Question.find({ discipline: disciplineId });
-      return res.json(questions);
-    } catch (err) {
-      return res.status(400).json({ error: err });
+
+    const reqUser = await User.findById(req.user.id);
+    const discipline = await Discipline.findById(disciplineId);
+
+    console.log('reqId', reqUser._id);
+    console.log('disciplineUser', discipline.activeUser);
+    if (
+      reqUser.admin ||
+      String(discipline.activeUser) === String(reqUser._id)
+    ) {
+      try {
+        const questions = await Question.find({ discipline: disciplineId });
+        return res.json(questions);
+      } catch (err) {
+        return res.status(400).json({ error: err });
+      }
+    } else {
+      return res.status(400).json({ error: 'Not Allowed' });
     }
   }
   async show(req, res) {

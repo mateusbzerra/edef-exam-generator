@@ -1,10 +1,10 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 
 class UserController {
   async index(req, res) {
     try {
-      const users = await User.find({});
+      const users = await User.find({}).select("-password");
       return res.json(users);
     } catch (err) {
       return res.status(400).json({ error: err });
@@ -20,7 +20,7 @@ class UserController {
         return res.status(400).json({ error: err });
       }
     } else {
-      return res.status(401).json({ error: 'Not Allowed' });
+      return res.status(401).json({ error: "Not Allowed" });
     }
   }
   async store(req, res) {
@@ -44,13 +44,13 @@ class UserController {
         return res.status(400).json({ error: err });
       }
     } else {
-      return res.status(401).json({ error: 'Not Allowed' });
+      return res.status(401).json({ error: "Not Allowed" });
     }
   }
   async delete(req, res) {
     try {
       await User.findByIdAndDelete(req.params.id);
-      return res.json({ success: 'User deleted successfully' });
+      return res.json({ success: "User deleted successfully" });
     } catch (err) {
       return res.status(400).json({ error: err });
     }

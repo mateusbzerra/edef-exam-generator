@@ -3,6 +3,7 @@ const AuthController = require('./controllers/AuthController');
 const UserController = require('./controllers/UserController');
 const DisciplineController = require('./controllers/DisciplineController');
 const QuestionController = require('./controllers/QuestionController');
+const PDFController = require('./controllers/PDFController');
 //
 const AuthMiddleware = require('./middlewares/AuthMIddleware');
 const AdminMiddleware = require('./middlewares/AdminMiddleware');
@@ -15,6 +16,7 @@ routes.get('/', (req, res) => {
 
 routes.post('/login', AuthController.auth);
 routes.post('/signup', UserController.store);
+routes.get('/pdf', PDFController.generate);
 
 routes.use(AuthMiddleware);
 //DISCIPLINES
@@ -35,7 +37,7 @@ routes.delete('/users/:id', AdminMiddleware, UserController.delete);
 routes.get('/questions', AdminMiddleware, QuestionController.index);
 routes.get(
   '/disciplines/:disciplineId/questions',
-  AdminMiddleware,
+
   QuestionController.index
 );
 routes.get('/questions/:id', QuestionController.show);

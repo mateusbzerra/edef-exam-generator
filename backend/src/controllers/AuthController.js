@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 module.exports = {
   async auth(req, res) {
@@ -7,12 +7,14 @@ module.exports = {
 
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(400).json({ error: 'User not found' });
+    if (!user) return res.status(400).json({ error: "User not found" });
 
     if (!(await user.compareHash(password))) {
-      return res.status(400).json({ error: 'Invalid password' });
+      return res.status(400).json({ error: "Invalid password" });
     }
 
-    return res.json({ token: User.generateToken(user), admin: user.admin });
+    return res.json({
+      token: User.generateToken(user)
+    });
   }
 };

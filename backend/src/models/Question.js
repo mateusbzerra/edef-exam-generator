@@ -10,16 +10,14 @@ const QuestionSchema = new Schema(
       type: String,
       required: true
     },
-    alternatives: [
-      {
-        description: {
-          type: String,
-          required: true
-        },
-        correct: Boolean,
-        _id: false
-      }
-    ],
+    alternatives: {
+      type: [String],
+      required: true
+    },
+    awnser: {
+      type: Number,
+      required: true
+    },
     discipline: {
       type: Schema.Types.ObjectId,
       ref: 'Discipline',

@@ -1,12 +1,23 @@
 const Discipline = require('../models/Discipline');
+const User = require('../models/User');
 
 class DisciplineController {
   async index(req, res) {
-    try {
-      const disciplines = await Discipline.find({});
-      return res.json(disciplines);
-    } catch (err) {
-      return res.status(400).json({ error: err });
+    const user = await User.find(req.user._id);
+    if (user.admin) {
+      try {
+        const disciplines = await Discipline.find({});
+        return res.json(disciplines);
+      } catch (err) {
+        return res.status(400).json({ error: err });
+      }
+    } else {
+      try {
+        const disciplines = await Discipline.find({ activeUser: user });
+        return res.json(disciplines);
+      } catch (err) {
+        return res.status(400).json({ error: err });
+      }
     }
   }
   async show(req, res) {

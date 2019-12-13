@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const { Schema, model } = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const UserSchema = new Schema(
   {
@@ -36,11 +36,11 @@ UserSchema.methods = {
 };
 
 UserSchema.statics = {
-  generateToken({ id }) {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-      expiresIn: '7d'
+  generateToken({ id, name, admin }) {
+    return jwt.sign({ id, name, admin }, process.env.JWT_SECRET, {
+      expiresIn: "7d"
     });
   }
 };
 
-module.exports = model('User', UserSchema);
+module.exports = model("User", UserSchema);
